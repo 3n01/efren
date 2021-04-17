@@ -190,7 +190,10 @@ class App extends Component {
                 'Content-Type':'application/json'
             } ,
             body: JSON.stringify(body)
-        }).then(this.getImagenesMejor())
+        }).then( result => {
+            console.log("Acabó de llamar");
+            this.getImagenesMejor();
+        })
         .catch(err => console.log(err))
         
     }
