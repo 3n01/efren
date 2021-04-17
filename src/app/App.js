@@ -35,7 +35,7 @@ class App extends Component {
                 //console.log(data);
                 M.toast({html: "Imagen actualizada con exito"});
                 this.setState({ name: '', description: '', _id: '', image: ''});
-                this.getImagenes();
+                this.getImagenesMejor();
             })
             .catch(err => console.log(err))
 
@@ -54,7 +54,7 @@ class App extends Component {
                         //console.log(data);
                         M.toast({html: "Imagen guardada en base de datos"});
                         this.setState({ name: '', description: '',image: ''});
-                        this.getImagenes();
+                        this.getImagenesMejor();
                     }) ,
                 err => console.log(err)
             );
@@ -82,7 +82,7 @@ class App extends Component {
 
     deleteImagen(id){
         if (confirm("Seguro que quieres eliminarlo??")){
-            //console.log(`Borrando imagen -> ${id}`);
+            console.log(`Borrando imagen -> ${id}`);
             fetch(`api/images/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -93,7 +93,7 @@ class App extends Component {
             .then(data => {
                 //console.log(data);
                 M.toast({html: "Imagen borrada de base de datos"});
-                this.getImagenes();
+                this.getImagenesMejor();
             })
             .catch(err => console.log(err));
         }
@@ -143,13 +143,16 @@ class App extends Component {
         fetch('/api/images')
         .then(result => result .json())
         .then(data => { 
-            data.result.map( (image, i) => {          
+            this.setState({ images: []});
+            data.result.sort((a,b) => a.sort - b.sort).map( (image, i) => {          
                 fetch(`/api/images/img/${image._id}`)
                 .then( res => {
                     let _image = {
+                        _id:  image._id,
                         name: image.name,
                         description: image.description,
-                        imageFile: res
+                        imageFile: res,
+                        sort: image.sort
                     }
                     this.setState(prevState => ({
                         images: [...prevState.images, _image]
@@ -162,6 +165,34 @@ class App extends Component {
             })
         })
         .catch(err => console.log(err))
+    }
+
+    cambiaOrden(array, from, to){
+         let item = array.splice(from, 1);
+         array.splice(to, 0, item[0]);
+    }
+        
+
+    changeSort(image, accion){
+        let body = {
+            _id: image._id,
+            name: image.name,
+            description: image.description,
+            image: image.image,
+            sort: image.sort,
+            accion: accion
+            
+        }
+        fetch(`/api/images/${image._id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            } ,
+            body: JSON.stringify(body)
+        }).then(this.getImagenesMejor())
+        .catch(err => console.log(err))
+        
     }
 
     componentDidMount(){   
@@ -202,7 +233,7 @@ class App extends Component {
                                                     <input id="inputImage"  name="image" onChange={this.handleChange} type="file"/>
                                                 </div>
                                                 <div className="file-path-wrapper">
-                                                    <input  className="file-path validate" type="text" value={this.state.image}  />
+                                                    <input  className="file-path validate" type="text" value={this.state.image} onChange={() => {}} />
                                                 </div>
                                            </div>
 
@@ -230,7 +261,7 @@ class App extends Component {
                                </thead>
                                <tbody>
                                     {this.state.images.map( (image, index) => {
-                                        //console.log(image)
+                                        console.log("Loop",image)
                                         return(
                                             <tr key={image._id}>                                    
                                                 <td>{image.name}</td>
@@ -241,9 +272,8 @@ class App extends Component {
                                                    <button onClick={ () => this.deleteImagen(image._id)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons">delete</i></button>
                                                 </td>
                                                 <td>
-                                                    <input hidden type="number" onChange={() => {}} value={index}/>
-                                                    <button className="btn light-blue darken-4"><i className="material-icons">keyboard_arrow_up</i></button>
-                                                    <button className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons" >keyboard_arrow_down</i></button>
+                                                    <button value={image.sort} onClick={() => this.changeSort(image, -1)} className="btn light-blue darken-4"><i className="material-icons">keyboard_arrow_up</i></button>
+                                                    <button value={image.sort} onClick={() => this.changeSort(image, 1)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons" >keyboard_arrow_down</i></button>
                                                 </td>
                                             </tr>
                                         )
