@@ -101,7 +101,10 @@ router.put('/:id', async(req, res, next) => {
                                 sort: futuroMio
                             }
                             Image.findByIdAndUpdate(id, nuevosDatos).then(
-                                result => console.log("Actualizacion interna"),
+                                result => {
+                                    console.log("OK actualiza")
+                                    res.status(200).json({result: result})
+                                },
                                 err => console.log("Error interno: ", err)
                             )
                         },

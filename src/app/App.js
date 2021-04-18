@@ -154,6 +154,7 @@ class App extends Component {
                         imageFile: res,
                         sort: image.sort
                     }
+                    
                     this.setState(prevState => ({
                         images: [...prevState.images, _image]
                     }))
@@ -183,6 +184,7 @@ class App extends Component {
             accion: accion
             
         }
+        console.log("changeSort")
         fetch(`/api/images/${image._id}`, {
             method: 'PUT',
             headers: {
@@ -190,7 +192,7 @@ class App extends Component {
                 'Content-Type':'application/json'
             } ,
             body: JSON.stringify(body)
-        }).then( result => {
+        }).then(result => result .json()).then( x => {
             console.log("Acabó de llamar");
             this.getImagenesMejor();
         })
