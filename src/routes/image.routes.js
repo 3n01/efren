@@ -48,9 +48,9 @@ router.get('/:id', (req, res, next) => {
 
 //insert images
 router.post('/', upload.single('image'), (req, res, next) => {
-    //console.log("File: ", req.file);
-    //console.log("Body: ", req.body);
-    const { name, description} = req.body;
+    console.log("File: ", req.file);
+    console.log("Body: ", req.body);
+    const { name, description, m1, m2, year} = req.body;
     const image = req.file.path;
 
 
@@ -58,7 +58,7 @@ router.post('/', upload.single('image'), (req, res, next) => {
     Image.find().select({sort: 1, _id: 0}).sort({sort: -1}).limit(1).then(
         mayor => {
             let sort = mayor.length === 0 ? 0 : mayor[0].sort + 1;
-            const data = new Image({ name, description, image, sort});
+            const data = new Image({ name, description, m1, m2, year, image, sort});
             data.save().then(
                 result => {
                     res.status(200).json({
@@ -78,10 +78,10 @@ router.post('/', upload.single('image'), (req, res, next) => {
 
 
 //updte images
-router.put('/:id', async(req, res, next) => {
-    const { name, description , sort, accion} = req.body;
+router.put('/:id', (req, res, next) => {
+    const { name, description , m1,m2, year, sort, accion} = req.body;
     console.log(`Accion -> ${accion} Actual sort: ${sort}` )
-    const data = { name, description};
+    const data = { name, description, m1, m2, year};
     const id = req.params.id;
 
     if (accion !== undefined){

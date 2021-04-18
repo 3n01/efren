@@ -7,10 +7,13 @@ class App extends Component {
         this.state = {
             name: '',
             description: '',
+            m1: null,
+            m2: null,
+            year: null,
             image: '',
             images: [],
             _id: '',
-            actualImage: [],
+      
 
         }
         this.guardarImage = this.guardarImage.bind(this);
@@ -34,7 +37,7 @@ class App extends Component {
             .then(data => {
                 //console.log(data);
                 M.toast({html: "Imagen actualizada con exito"});
-                this.setState({ name: '', description: '', _id: '', image: ''});
+                this.setState({ name: '', description: '', m1: 0, m2: 0, year: 0, _id: '', image: ''});
                 this.getImagenesMejor();
             })
             .catch(err => console.log(err))
@@ -43,8 +46,10 @@ class App extends Component {
             const formData  = new FormData();   
             formData.append('image', this.state.image);
             formData.append('name', this.state.name);
-            formData.append('description', this.state.description)
-            
+            formData.append('description', this.state.description);
+            formData.append('m1', this.state.m1);
+            formData.append('m2', this.state.m2);
+            formData.append('year', this.state.year);
             fetch('/api/images', {
                 method: 'POST',
                 body: formData
@@ -113,6 +118,9 @@ class App extends Component {
             this.setState({
                 name: data.result.name,
                 description: data.result.description,
+                m1: data.result.m1,
+                m2: data.result.m2,
+                year: data.result.year,
                 _id: data.result._id
             })
         })
@@ -140,17 +148,24 @@ class App extends Component {
     }
 
     getImagenesMejor(){
+        //recuperar todas la imagenes
         fetch('/api/images')
         .then(result => result .json())
         .then(data => { 
+            //si ok, limpiar el array de imagenes 
             this.setState({ images: []});
+            //e iterar, por cada una de ellas recupero el fichero imagen desde express
             data.result.sort((a,b) => a.sort - b.sort).map( (image, i) => {          
                 fetch(`/api/images/img/${image._id}`)
                 .then( res => {
+                    //y si lo recupero ok, se lo meto en el parametro imageFile y guardo el registro en el array
                     let _image = {
                         _id:  image._id,
                         name: image.name,
                         description: image.description,
+                        m1: image.m1,
+                        m2: image.m2,
+                        year: image.year,
                         imageFile: res,
                         sort: image.sort
                     }
@@ -215,7 +230,18 @@ class App extends Component {
                     <a className="brand-logo" href="/">Administración</a>
                  </div>
                </nav>
+               
                <div className="container">
+               <div className="row">
+                       <div className="input-field col s12">
+                       <select>
+                        <option selected value="1">Carrusel</option>
+                        <option value="2">Pinturas</option>
+                        <option value="3">Bio</option>
+                        <option value="4">Contacto</option>
+                        </select>
+                       </div>
+                   </div>
                    <div className="row">
                        <div className="col s5">
                            <div className="card">
@@ -229,6 +255,17 @@ class App extends Component {
                                        <div className="row">
                                            <div className="input-field col s12" >
                                                <textarea name="description" onChange={this.handleChange} value={this.state.description} className="materialize-textarea" placeholder="Descripción"></textarea>
+                                           </div>
+                                       </div>
+                                       <div className="row">
+                                           <div className="input-field col s4" >
+                                               <input type="number" name="m1"  onChange={this.handleChange} value={this.state.m1} placeholder="Medida 1"></input>
+                                           </div>
+                                           <div className="input-field col s4" >
+                                               <input type="number"  name="m2" onChange={this.handleChange} value={this.state.m2}  placeholder="Medida 2"></input>
+                                           </div>
+                                           <div className="input-field col s4" >
+                                               <input type="number"  name="year" onChange={this.handleChange} value={this.state.year}  placeholder="Año"></input>
                                            </div>
                                        </div>
                                        <div className="row">
@@ -258,20 +295,27 @@ class App extends Component {
                                <thead>
                                     <tr>
                                         <th>Nombre</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripcion</th>                                       
+                                        <th>M1</th>
+                                        <th>M2</th>
+                                        <th>Año</th>
                                         <th>Imagen</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                </thead>
                                <tbody>
-                                    {this.state.images.map( (image, index) => {
+                                    {this.state.images.sort((a,b) => a.sort - b.sort).map( (image, index) => {
                                         console.log("Loop",image)
                                         return(
                                             <tr key={image._id}>                                    
                                                 <td>{image.name}</td>
                                                 <td>{image.description}</td>
+                                                <td>{image.m1}</td>
+                                                <td>{image.m2}</td>
+                                                <td>{image.year}</td>
                                                 <td><img src={image.imageFile.url} width="100px" height="100px"/></td>
+                                                
                                                 <td>
                                                    <button onClick={ () => this.editImagen(image._id)} className="btn light-blue darken-4"><i className="material-icons">edit</i></button>
                                                    <button onClick={ () => this.deleteImagen(image._id)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons">delete</i></button>
