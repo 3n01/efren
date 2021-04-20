@@ -217,8 +217,11 @@ class App extends Component {
 
     componentDidMount(){   
         this.getImagenesMejor();
-        //console.log("componente fue montado")
-        //console.log(this.state.images)
+        console.log("ComponentDidMount state-> ", this.state)
+    }
+
+    comboChange(e){
+        alert(e.target.value)
     }
 
     render() {
@@ -234,8 +237,8 @@ class App extends Component {
                <div className="container">
                <div className="row">
                        <div className="input-field col s12">
-                       <select>
-                        <option selected value="1">Carrusel</option>
+                       <select className="browser-default" onChange={this.comboChange}>
+                        <option defaultValue value="1">Carrusel</option>
                         <option value="2">Pinturas</option>
                         <option value="3">Bio</option>
                         <option value="4">Contacto</option>
