@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Nav from './Nav';
+import '../public/css/style.css';
 
-class App extends Component {
+class InnerApp extends Component {
 
     constructor(){
         super();
@@ -233,6 +236,17 @@ class App extends Component {
                     <a className="brand-logo" href="/">Administración</a>
                  </div>
                </nav>
+
+             {/**<nav className="light-blue darken-4">
+                <div className="nav-wrapper">
+                    <a href="#" className="brand-logo">Logo</a>
+                    <ul id="nav-mobile" className="right hide-on-med-and-down">
+                        <li><a href="sass.html">Sass</a></li>
+                        <li><a href="badges.html">Components</a></li>
+                        <li><a href="collapsible.html">JavaScript</a></li>
+                    </ul>
+                </div>
+            </nav>*/}
                
                <div className="container">
                <div className="row">
@@ -320,12 +334,12 @@ class App extends Component {
                                                 <td><img src={image.imageFile.url} width="100px" height="100px"/></td>
                                                 
                                                 <td>
-                                                   <button onClick={ () => this.editImagen(image._id)} className="btn light-blue darken-4"><i className="material-icons">edit</i></button>
-                                                   <button onClick={ () => this.deleteImagen(image._id)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons">delete</i></button>
+                                                   <button onClick={ () => this.editImagen(image._id)} className="btn light-blue darken-4"><i className="material-icons">edit</i></button></td>
+                                                 <td>  <button onClick={ () => this.deleteImagen(image._id)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons">delete</i></button>
                                                 </td>
                                                 <td>
-                                                    <button value={image.sort} onClick={() => this.changeSort(image, -1)} className="btn light-blue darken-4"><i className="material-icons">keyboard_arrow_up</i></button>
-                                                    <button value={image.sort} onClick={() => this.changeSort(image, 1)} className="btn light-blue darken-4" style={ {margin: '4px'}}><i className="material-icons" >keyboard_arrow_down</i></button>
+                                                    <button value={image.sort} onClick={() => this.changeSort(image, -1)} className="btn light-blue darken-4"><i className="material-icons">keyboard_arrow_up</i></button></td>
+                                                  <td>  <button value={image.sort} onClick={() => this.changeSort(image, 1)} className="btn light-blue darken-4" style={ { margin: '4px'}}><i className="material-icons" >keyboard_arrow_down</i></button>
                                                 </td>
                                             </tr>
                                         )
@@ -338,6 +352,25 @@ class App extends Component {
             </div>
         )
     }
+}
+
+
+const Home = () => (
+    <div><h1>Home page EE</h1></div>
+  )
+  
+
+function App(){
+        return (
+            <Router>
+                <Switch>
+                    <Route path="/" exact component={InnerApp}/>
+                    <Route path="/home" component={Home}/>
+                </Switch>          
+            </Router>
+            
+        )
+    
 }
 
 export default App;
