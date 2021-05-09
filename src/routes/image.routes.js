@@ -19,8 +19,9 @@ const upload = multer({
 }); 
 
 //get images
-router.get('/', async(req, res, next) => {
-    Image.find()
+router.get('/:tab', async(req, res, next) => {
+    const tab = req.params.tab;
+    Image.find({tab: tab})
         .exec()
         .then(
             result => res.status(200).json({ result: result}),
@@ -51,17 +52,17 @@ router.get('/:id', (req, res, next) => {
 router.post('/', upload.single('image'), (req, res, next) => {
     console.log("File: ", req.file);
     console.log("Body: ", req.body);
-    const { name, description, m1, m2, year} = req.body;
+    const { name, description, m1, m2, year, tab} = req.body;
     const image = req.file.path;
     const _id = new mongoose.Types.ObjectId();
     console.log("Nuevo _id: " + _id);
     const url = 'http://localhost:3032/api/images/img/' + _id;
 
     //obtener el sort mayor existe, si cero, cero
-    Image.find().select({sort: 1, _id: 0}).sort({sort: -1}).limit(1).then(
+    Image.find({ tab: tab}).select({sort: 1, _id: 0}).sort({sort: -1}).limit(1).then(
         mayor => {
             let sort = mayor.length === 0 ? 0 : mayor[0].sort + 1;
-            const data = new Image({ _id, name, description, m1, m2, year, image, url , sort});
+            const data = new Image({ _id, name, description, m1, m2, year, image, url , sort, tab});
             data.save().then(
                 result => {
                     res.status(200).json({
@@ -125,16 +126,8 @@ router.put('/:id', (req, res, next) => {
 
         res.status(200).json({});
     }
-    
-    
-    
-    
-    
 
-    
 })
-
-
 
 //borrar
 router.delete('/:id', async(req, res, next) => {

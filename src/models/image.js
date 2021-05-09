@@ -10,7 +10,8 @@ const ImageSchema = new Schema({
     year: { type: Number, required: true},
     image: { type: String, required: false},
     url : {type: String , required: false},
-    sort: { type: Number, required: false}
+    sort: { type: Number, required: false},
+    tab: { type: Number, required: true}
 });
 
 

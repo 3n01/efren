@@ -16,18 +16,20 @@ class InnerApp extends Component {
             image: '',
             images: [],
             _id: '',
+            tab: 1 // por defecto Carrusel
       
 
         }
         this.guardarImage = this.guardarImage.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.comboChange = this.comboChange.bind(this);
        
     }
 
-
+    //ACTUALIZAR O GUARDAR
     guardarImage(e){
         //console.log(this.state);
-
+        //Actualizar
         if (this.state._id){
             fetch(`/api/images/${this.state._id}`, {
                 method: 'PUT',
@@ -45,7 +47,7 @@ class InnerApp extends Component {
             })
             .catch(err => console.log(err))
 
-        }else{
+        }else{//Guardar
             const formData  = new FormData();   
             formData.append('image', this.state.image);
             formData.append('name', this.state.name);
@@ -53,6 +55,8 @@ class InnerApp extends Component {
             formData.append('m1', this.state.m1);
             formData.append('m2', this.state.m2);
             formData.append('year', this.state.year);
+            formData.append('tab', this.state.tab);
+
             fetch('/api/images', {
                 method: 'POST',
                 body: formData
@@ -74,7 +78,6 @@ class InnerApp extends Component {
 
     handleChange(e){
         const { name, value } = e.target;
-        
         if (name === 'image'){
             //console.log("handleChange: ", e.target.files[0])
             this.setState({
@@ -83,7 +86,10 @@ class InnerApp extends Component {
         }else{
             this.setState({
                 [name]:value
-            })
+            });
+            if (name === 'tab'){
+                this.getImagenesMejor(value);
+            }
         }
 
     }
@@ -150,9 +156,11 @@ class InnerApp extends Component {
         .catch(err => console.log(err))
     }
 
-    getImagenesMejor(){
+    getImagenesMejor(ptab){
         //recuperar todas la imagenes
-        fetch('/api/images')
+        //alert(`getImagenesMejor -> ${this.state.tab}`);
+        var _tab = ptab || this.state.tab;
+        fetch(`/api/images/${_tab}`)
         .then(result => result .json())
         .then(data => { 
             //si ok, limpiar el array de imagenes 
@@ -190,7 +198,6 @@ class InnerApp extends Component {
          let item = array.splice(from, 1);
          array.splice(to, 0, item[0]);
     }
-        
 
     changeSort(image, accion){
         let body = {
@@ -224,7 +231,7 @@ class InnerApp extends Component {
     }
 
     comboChange(e){
-        alert(e.target.value)
+        this.setState({ tab : e.target.value})
     }
 
     render() {
@@ -251,7 +258,7 @@ class InnerApp extends Component {
                <div className="container">
                <div className="row">
                        <div className="input-field col s12">
-                       <select className="browser-default" onChange={this.comboChange}>
+                       <select className="browser-default" name="tab" onChange={this.handleChange}>
                         <option defaultValue value="1">Carrusel</option>
                         <option value="2">Pinturas</option>
                         <option value="3">Bio</option>
