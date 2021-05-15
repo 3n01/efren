@@ -1,21 +1,47 @@
 import React from 'react';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../public/css/style.css';
 
-function Nav(){
+function Nav() {
 
-    const navStyle = {
-        color : 'black'
-    }
+  const navStyle = {
+    color: 'gray',
+    fontWeight: 'bold',
+    fontSize: '15px',
+    textDecoration: 'none',
+    borderBottom: '1px solid gray'
+  }
 
-    return(
-        <nav>
-            <h3>Logo</h3>
-            <ul className="nav-links">
-                <Link  style={navStyle} to="/home"><li>Home</li></Link>
-            </ul>
-        </nav>
-    )
+  const mainNavStyle = {
+    color: 'gray',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    textDecoration: 'none'
+  }
+
+  const extStyle = {
+    backgroundColor : 'white'
+
+  }
+
+
+  return (
+    <nav clasName="" style={extStyle} >
+      <div clasName="">
+      
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-links">
+             <li clasName="nav-item">
+             <Link style={mainNavStyle} to="/">Gestion Imágenes</Link>
+             </li>
+            <li className="nav-item">
+              <Link style={navStyle} to="/contactos"><li>Contactos</li></Link>
+            </li>
+
+          </ul>
+
+      </div>
+    </nav>
+  )
 }
 
 export default Nav
