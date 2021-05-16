@@ -11,7 +11,7 @@ function App() {
         <Router>
             <Nav/>
             <Switch>
-            <div className="container">
+            <div className="">
                 <Route path="/" exact component={Images} />
                 <Route path="/contactos"  component={Contactos} />
             </div>

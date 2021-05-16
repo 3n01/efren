@@ -233,7 +233,7 @@ class ImagesClass extends Component {
 
     render() {
         return (
-               <div className="container">
+               <div className="">
                <div className="row">
                        <div className="input-field col s12">
                        <select className="browser-default" name="tab" onChange={this.handleChange}>
@@ -245,7 +245,7 @@ class ImagesClass extends Component {
                        </div>
                    </div>
                    <div className="row">
-                       <div className="col s5">
+                       <div className="col s3">
                            <div className="card">
                                <div className="card-content">
                                    <form onSubmit={this.guardarImage}>
@@ -292,7 +292,7 @@ class ImagesClass extends Component {
                                </div>
                            </div>
                        </div>
-                       <div className="col s7">
+                       <div className="col s9">
                            <table className="">
                                <thead>
                                     <tr>
