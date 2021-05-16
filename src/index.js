@@ -10,12 +10,14 @@ const {mongoose} = require('./database');
 //Settings
 app.set('port', process.env.PORT || PORT);
 
+
 //Middleware (se ejecutan antes de llegar a las rutas)
 app.use('/uploads', express.static(directory));
 app.use(morgan('dev'))
 app.use(express.json())
 
 app.use((req,res,next)=>{
+    // res.header("Content-Security-Policy", "default-src 'self';");
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
     if (req.method === 'OPTIONS'){
