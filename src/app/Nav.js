@@ -26,14 +26,14 @@ function Nav() {
 
 
   return (
-    <nav clasName="" style={extStyle} >
-      <div clasName="">
-          <ul class="">
-             <li clasName="nav-item">
-             <Link style={navStyle}  to="/">Gestion Imágenes</Link>
+    <nav className="" style={extStyle} >
+      <div className="">
+          <ul className="">
+             <li className="nav-item">
+              <Link style={navStyle}  to="/">Gestion Imágenes</Link>
              </li>
             <li className="nav-item">
-              <Link style={navStyle} to="/noticias"><li>Gestión Noticias</li></Link>
+              <Link style={navStyle} to="/noticias">Gestión Noticias</Link>
             </li>
 
           </ul>

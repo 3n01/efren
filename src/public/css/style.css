@@ -34,10 +34,6 @@
     /* Support for IE. */
     font-feature-settings: "liga";
   }
-
-
-
-
   
 nav {
   display: flex;
@@ -56,5 +52,10 @@ nav {
   list-style: none;
 }
 
+.news-container{
+  margin: 20px!important;
+  /* background: red!important; */
+}
 
-  
+
+

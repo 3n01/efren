@@ -244,7 +244,7 @@ class ImagesClass extends Component {
                         </select>
                        </div>
                    </div>
-                   <div className="row">
+                <div className="row">
                        <div className="col s3">
                            <div className="card">
                                <div className="card-content">
@@ -308,7 +308,7 @@ class ImagesClass extends Component {
                                </thead>
                                <tbody>
                                     {this.state.images.sort((a,b) => a.sort - b.sort).map( (image, index) => {
-                                        console.log("Loop",image)
+                                        //console.log("Loop",image)
                                         return(
                                             <tr key={image._id}>                                    
                                                 <td>{image.name}</td>

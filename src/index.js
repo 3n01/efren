@@ -4,9 +4,7 @@ const path = require('path');
 const app = express();
 const PORT = 3032;
 const directory = path.join(__dirname, '/uploads');
-
 const {mongoose} = require('./database');
-
 //Settings
 app.set('port', process.env.PORT || PORT);
 
@@ -29,7 +27,7 @@ app.use((req,res,next)=>{
 
 //Routes
 app.use('/api/images',require('./routes/image.routes'))
-
+app.use('/api/news', require('./routes/news.routes'));
 
 //Fix noticias
 app.get('/noticias', (req, res) => {    
