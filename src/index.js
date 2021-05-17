@@ -30,6 +30,16 @@ app.use((req,res,next)=>{
 //Routes
 app.use('/api/images',require('./routes/image.routes'))
 
+
+//Fix noticias
+app.get('/noticias', (req, res) => {    
+    res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), function(err) {             
+    if (err) {                 
+         res.status(500).send(err) 
+         }        
+    };
+});
+
 //Static files
 console.log( path.join(__dirname ,'public'))
 app.use(express.static(path.join(__dirname ,'public')))

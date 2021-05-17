@@ -59,7 +59,7 @@ class NewsClass extends Component {
     }
 }
 
-function News() {
+const News = () => {
     return <NewsClass/>;
 }
 

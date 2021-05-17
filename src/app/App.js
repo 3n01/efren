@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route ,Redirect} from 'react-router-dom';
 import Images from './Images';
 import News from './News';
 
@@ -14,6 +14,7 @@ function App() {
             <div className="">
                 <Route path="/" exact component={Images} />
                 <Route path="/noticias"  component={News} />
+
             </div>
             </Switch>
         </Router>
