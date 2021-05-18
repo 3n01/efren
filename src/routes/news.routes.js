@@ -40,4 +40,24 @@ router.post('/', (req, res, next) => {
 
 })
 
+router.put('/:id', (req, res, next) => {
+    const { name, date, description, link } = req.body;
+    const update = { name, date, description, link};
+    News.findByIdAndUpdate(req.params.id, update)
+        .then(
+            result => res.status(200).json({ result: result}),
+            err => console.log(err)
+        )
+})
+
+router.delete('/:id', async(req, res, next) => {
+    News.findByIdAndRemove(req.params.id)
+        .then(
+            result => {
+                res.status(200).json( {result: result})
+            },
+            err => console.log(err)
+        )
+})
+
 module.exports = router;

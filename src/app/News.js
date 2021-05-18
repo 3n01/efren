@@ -11,6 +11,7 @@ class NewsClass extends Component {
             date: '',
             description: '',
             link: '',
+            _id: '',
             news: []
         }
         this.saveNews = this.saveNews.bind(this);
@@ -26,22 +27,43 @@ class NewsClass extends Component {
             link: this.state.link
         }
         console.log(`Se va a mandar al servicio /api/news con datos ${JSON.stringify(formData)}`);
-        fetch('/api/news', {
-            method: 'POST',
-            headers: {
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            } ,
-            body: JSON.stringify(formData)
-        }).then(
-            result => result.json()
-                .then(data => {
-                    console.log(data);
-                    this.setState({ name: '', date : '', description: '',link: ''});
-                    this.getNews();
-                }) ,
-            err => console.log(err)
-        );
+        
+        if (this.state._id){
+            fetch(`/api/news/${this.state._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(formData)
+            }).then( 
+                    result => {
+                        this.setState({ name: '', date : '', description: '',link: '', _id: ''});
+                        this.getNews()
+                        
+                    },
+                    err => alert(err)
+                )
+        }else{
+            fetch('/api/news', {
+                method: 'POST',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                } ,
+                body: JSON.stringify(formData)
+            }).then(
+                result => result.json()
+                    .then(data => {
+                        console.log(data);
+                        this.setState({ name: '', date : '', description: '',link: '', _id: ''});
+                        this.getNews();
+                    }) ,
+                err => console.log(err)
+            );
+            
+        }
+        
         e.preventDefault();
 
     }
@@ -56,13 +78,41 @@ class NewsClass extends Component {
             .catch( err => console.log(err));
     }
 
-    editNews(){
-
+    editNews(id){
+        fetch(`/api/news/${id}`, {
+            method: 'GET',
+            header: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        }).then(result => result.json())
+        .then(data =>{
+            this.setState({
+                name: data.result.name,
+                date: data.result.date,
+                description: data.result.description,
+                link: data.result.link,
+                _id: data.result._id
+            },
+             err => console.log(err)
+            )
+        })
 
     }
 
-    deleteNews(){
-        
+    deleteNews(id){
+        if (confirm("¿Seguro que quieres eliminar noticia?")){
+            fetch(`/api/news/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                }
+            }).then(
+                result => this.getNews(),
+                err => console.log(err)
+            )
+        }
     }
 
     handleChange(e){
