@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
-const PORT = 3032;
+const PORT = 8080;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
 //Settings

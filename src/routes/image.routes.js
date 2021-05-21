@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Image = require('../models/image')
+const LOCALHOST = '46.183.114.163';
+const SERVER_PORT = '8080';
 const mongoose = require('mongoose');
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -38,7 +40,7 @@ router.get('/img/:id', (req, res, next) => {
 })
 
 //get by id
-router.get('/:id', (req, res, next) => {
+router.get('/id/:id', (req, res, next) => {
     const id = req.params.id;
     Image.findById(id)
         .exec()
@@ -56,7 +58,7 @@ router.post('/', upload.single('image'), (req, res, next) => {
     const image = req.file.path;
     const _id = new mongoose.Types.ObjectId();
     console.log("Nuevo _id: " + _id);
-    const url = 'http://localhost:3032/api/images/img/' + _id;
+    const url = `http://${LOCALHOST}:${SERVER_PORT}/api/images/img/` + _id;
 
     //obtener el sort mayor existe, si cero, cero
     Image.find({ tab: tab}).select({sort: 1, _id: 0}).sort({sort: -1}).limit(1).then(

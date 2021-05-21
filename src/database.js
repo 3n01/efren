@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const URI = 'mongodb://localhost:27017/admin';
+const URI = 'mongodb://enolc:enolc@localhost:27017/admin';
 
 mongoose.connect(URI).then(
     (result) => console.log(`Success connecting to DB -> ${Object.keys(result.models)}`),
