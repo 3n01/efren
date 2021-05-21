@@ -29,14 +29,16 @@ app.use((req,res,next)=>{
 app.use('/api/images',require('./routes/image.routes'))
 app.use('/api/news', require('./routes/news.routes'));
 
-//Fix noticias
-app.get('/noticias', (req, res) => {    
-    res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), function(err) {             
+//Fix router
+const fix = (req, res) => {    
+    res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), err => {             
     if (err) {                 
          res.status(500).send(err) 
          }        
     };
-});
+}
+app.get('/noticias', fix);
+app.get('/bio', fix);
 
 //Static files
 console.log( path.join(__dirname ,'public'))

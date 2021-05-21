@@ -35,7 +35,9 @@ function Nav() {
             <li className="nav-item">
               <Link style={navStyle} to="/noticias">Gestión Noticias</Link>
             </li>
-
+            <li className="nav-item">
+              <Link style={navStyle} to="/bio">Gestión Bio</Link>
+            </li>
           </ul>
 
       </div>
