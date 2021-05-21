@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Image = require('../models/image')
 const LOCALHOST = '46.183.114.163';
+// const LOCALHOST = 'localhost';
 const SERVER_PORT = '8080';
 const mongoose = require('mongoose');
 const multer = require('multer');
