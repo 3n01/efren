@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route ,Redirect} from 'react-router-dom';
 import Images from './Images';
 import News from './News';
+import Bio from './Bio';
 
 import Nav from './Nav';
 import '../public/css/style.css';
@@ -14,6 +15,7 @@ function App() {
             <div className="">
                 <Route path="/" exact component={Images} />
                 <Route path="/noticias"  component={News} />
+                <Route path="/bio"  component={Bio} />
 
             </div>
             </Switch>

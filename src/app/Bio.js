@@ -14,21 +14,51 @@ class Bio extends React.Component{
 
     handleChange(e){
         console.log(e.target.value);
-        const name = e.target.name;
-        const value = e.target.value;
+        const { name, value } = e.target;
+        console.log(`Name: ${name} Value: ${value}`);
         this.setState({
             [name]:value
         })
     }
 
-    saveDescription(){
-        console.log("Se va a guardar descripcion");
+    saveDescription(e){
+        
+        const formData  = {
+            es: this.state.es,
+            en: this.state.en,
+
+        }
+        console.log("Se va a guardar: " + JSON.stringify(formData));
+        fetch('/api/bio', {
+            method: 'POST',
+            header: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then(
+            result => result.json()
+                .then(data => {
+                    console.log(data);
+                }) ,
+            err => console.log(err)
+        );
+
+        e.preventDefault();
     }
 
     render(){
         return(
-            <div>Hola soy bio gestion</div>
+            <div>
+                <form onSubmit={this.saveDescription}>
+                    <input type="text" name="es" onChange={this.handleChange} value={this.state.es} placeholder="Español"/>
+                    <input type="text" name="en" onChange={this.handleChange} value={this.state.en} placeholder="Inglés"/>
+                    <input type="submit" value="Guardar"/>
+                </form>
+            </div>
         )
     }
 
 }
+
+export default Bio;

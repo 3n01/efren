@@ -28,6 +28,7 @@ app.use((req,res,next)=>{
 //Routes
 app.use('/api/images',require('./routes/image.routes'))
 app.use('/api/news', require('./routes/news.routes'));
+app.use('/api/bio', require('./routes/bio.routes'));
 
 //Fix router
 const fix = (req, res) => {    
