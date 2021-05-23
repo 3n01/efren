@@ -5,6 +5,7 @@ const app = express();
 const PORT = 8080;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
+const bodyParser = require('body-parser');
 //Settings
 app.set('port', process.env.PORT || PORT);
 
@@ -12,7 +13,8 @@ app.set('port', process.env.PORT || PORT);
 //Middleware (se ejecutan antes de llegar a las rutas)
 app.use('/uploads', express.static(directory));
 app.use(morgan('dev'))
-app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json())
 
 app.use((req,res,next)=>{
     // res.header("Content-Security-Policy", "default-src 'self';");
