@@ -6,6 +6,7 @@ const PORT = 8080;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 //Settings
 app.set('port', process.env.PORT || PORT);
 
@@ -15,17 +16,18 @@ app.use('/uploads', express.static(directory));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json())
+app.use(cors())
 
-app.use((req,res,next)=>{
-    // res.header("Content-Security-Policy", "default-src 'self';");
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-    if (req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods', 'GET, DELETE, PATCH, POST, PUT')
-        return res.status(200).json({})
-    }
-    next()
-})
+// app.use((req,res,next)=>{
+//     // res.header("Content-Security-Policy", "default-src 'self';");
+//     res.header('Access-Control-Allow-Origin', '*')
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+//     if (req.method === 'OPTIONS'){
+//         res.header('Access-Control-Allow-Methods', 'GET, DELETE, PATCH, POST, PUT')
+//         return res.status(200).json({})
+//     }
+//     next()
+// })
 
 //Routes
 app.use('/api/images',require('./routes/image.routes'))

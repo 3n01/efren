@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Image = require('../models/image')
-const LOCALHOST = '46.183.114.163';
-// const LOCALHOST = 'localhost';
+// var os = require("os");
+// var hostname = os.hostname();
+
+// const LOCALHOST = '46.183.114.163';
+const LOCALHOST = 'localhost';
 const SERVER_PORT = '8080';
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -23,6 +26,7 @@ const upload = multer({
 
 //get images
 router.get('/:tab', async(req, res, next) => {
+ 
     const tab = req.params.tab;
     Image.find({tab: tab})
         .exec()
