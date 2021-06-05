@@ -6,7 +6,7 @@ const PORT = 3333;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
 const bodyParser = require('body-parser');
-//const cors = require('cors');
+const cors = require('cors');
 //Settings
 app.set('port', process.env.PORT || PORT);
 
@@ -16,7 +16,7 @@ app.use('/uploads', express.static(directory));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json())
-//app.use(cors())
+app.use(cors())
 
 // app.use((req,res,next)=>{
 //     // res.header("Content-Security-Policy", "default-src 'self';");

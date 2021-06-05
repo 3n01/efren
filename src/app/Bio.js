@@ -1,8 +1,6 @@
 import React from 'react';
 import '../public/css/style.css';
 
-
-
 const style = {
     margin: '20px'
 }
@@ -29,8 +27,7 @@ class BioClass extends React.Component{
 
     fetchBioDesc(){
         fetch(`/api/bio`,{
-          method : 'GET',
-          mode : 'cors'
+          method : 'GET'
         }).then(result => result.json())
         .then(
             desc => {
