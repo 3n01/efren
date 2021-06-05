@@ -6,7 +6,7 @@ const PORT = 3333;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+//const cors = require('cors');
 //Settings
 app.set('port', process.env.PORT || PORT);
 
@@ -16,7 +16,7 @@ app.use('/uploads', express.static(directory));
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json())
-app.use(cors())
+//app.use(cors())
 
 // app.use((req,res,next)=>{
 //     // res.header("Content-Security-Policy", "default-src 'self';");
@@ -35,7 +35,7 @@ app.use('/api/news', require('./routes/news.routes'));
 app.use('/api/bio', require('./routes/bio.routes'));
 
 //Fix router
-const fix = (req, res) => {    
+/*const fix = (req, res) => {
     res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), err => {             
     if (err) {                 
          res.status(500).send(err) 
@@ -43,7 +43,7 @@ const fix = (req, res) => {
     };
 }
 app.get('/noticias', fix);
-app.get('/bio', fix);
+app.get('/bio', fix);*/
 
 //Static files
 console.log( path.join(__dirname ,'public'))
