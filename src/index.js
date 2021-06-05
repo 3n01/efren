@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
-const PORT = 3032;
+const PORT = 3333;
 const directory = path.join(__dirname, '/uploads');
 const {mongoose} = require('./database');
 //Settings
@@ -30,13 +30,13 @@ app.use('/api/images',require('./routes/image.routes'))
 app.use('/api/news', require('./routes/news.routes'));
 
 //Fix noticias
-app.get('/noticias', (req, res) => {    
-    res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), function(err) {             
-    if (err) {                 
-         res.status(500).send(err) 
-         }        
-    };
-});
+// app.get('/noticias', (req, res) => {    
+//     res.sendFile(path.join(path.join(__dirname ,'public'), 'index.html')), function(err) {             
+//     if (err) {                 
+//          res.status(500).send(err) 
+//          }        
+//     };
+// });
 
 //Static files
 console.log( path.join(__dirname ,'public'))

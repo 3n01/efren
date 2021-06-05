@@ -112,7 +112,7 @@ class ImagesClass extends Component {
     }
 
     editImagen(id){
-        fetch(`api/images/${id}`,{
+        fetch(`api/images/id/${id}`,{
             method: 'GET',
             headers: {
                 'Accept':'application/json',
